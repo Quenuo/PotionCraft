@@ -1,0 +1,23 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+
+    <persistence-unit name="potion-craft" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!-- Configuración de la conexión a la base de datos -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/potioncraft"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="1234"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+
+            <!-- Configuración de Hibernate -->
+            <!-- Dialecto de SQL usado en MySQL -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <!-- Si tengo una Entity o columna que no está en BBDD, la crea -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- Muestra las consultas en consola como logs -->
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
