@@ -12,7 +12,7 @@ public class InventarioPocion {
     @Column(nullable = false)
     private Long cantidad;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pocion_id",nullable = false,unique = true)
     private Pocion pocion;
 }

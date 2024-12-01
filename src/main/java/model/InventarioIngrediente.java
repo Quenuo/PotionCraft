@@ -12,7 +12,7 @@ public class InventarioIngrediente {
     @Column(nullable = false)
     private Long cantidad;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingrediente_id",nullable = false,unique = true )
     private Ingrediente ingrediente;
 
