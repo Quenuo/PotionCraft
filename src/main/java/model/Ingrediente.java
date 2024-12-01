@@ -35,9 +35,7 @@ public class Ingrediente {
     @Column
     private Long nivelToxicidad;
 
-    //TODO verificar si es necesaria esta relacion bilateral
-    @OneToMany(mappedBy = "ingrediente",cascade = CascadeType.ALL)
-    private List<InventarioIngrediente> inventarioIngredientes;
+
 
 
 

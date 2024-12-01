@@ -16,11 +16,6 @@ public class Pocion {
     @Column(nullable = false,length = 100,unique = true)
     private String nombre;
 
-
-    //TODO verificar si es necerasia esta relacion bidireccional
-    @OneToMany(mappedBy = "pocion",cascade = CascadeType.ALL)
-    private List<InventarioPocion> inventarioPociones;
-
     @ManyToMany
     @JoinTable(
             name = "Ingredientes_Pociones",
