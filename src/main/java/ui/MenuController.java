@@ -39,8 +39,7 @@ public class MenuController {
             }else{
                 int opcionUsuario=arreglarint("",scanner);
                 if(opcionUsuario==1){
-                    reputacionManager.abrirGuardado();
-                    //TODO crear
+
                 }else{
                     System.err.println("Elige una opcion correcta");
                     elegioOpcion=false;

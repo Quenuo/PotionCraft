@@ -13,8 +13,8 @@ import java.util.List;
 
 public class GlobalRepository {
     private static GlobalRepository globalRepository;
-    private static EntityManagerFactory entityManagerFactory;
-    private static EntityManager entityManager;
+    private  EntityManagerFactory entityManagerFactory;
+    private  EntityManager entityManager;
 
 
 
