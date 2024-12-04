@@ -33,14 +33,14 @@ public class GlobalRepository {
     }
 
 
-    public List<InventarioPocion> obtenerPocionesUsuario(){
+    public List<InventarioPocion> obtenerInventarioPociones(){
         String consultaSQL="SELECT i FROM InventarioPocion i";
         Query query=entityManager.createQuery(consultaSQL);
         List<InventarioPocion> inventarioPociones=query.getResultList();
         return inventarioPociones;
     }
 
-    public List<InventarioIngrediente> obtenerIngredientesUsuario(){
+    public List<InventarioIngrediente> obtenerInventarioIngredientes(){
         String consultaSQL="SELECT i FROM InventarioIngrediente i";
         Query query=entityManager.createQuery(consultaSQL);
         List<InventarioIngrediente> inventarioIngredientes=query.getResultList();

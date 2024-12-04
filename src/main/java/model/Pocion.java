@@ -24,11 +24,7 @@ public class Pocion {
     )
     private List<Ingrediente> ingredientes;
 
-
-
-
-
-
-
-
+    public String getNombre() {
+        return nombre;
+    }
 }

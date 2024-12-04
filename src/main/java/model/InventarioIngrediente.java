@@ -16,6 +16,11 @@ public class InventarioIngrediente {
     @JoinColumn(name = "ingrediente_id",nullable = false,unique = true )
     private Ingrediente ingrediente;
 
+    @Override
+    public String toString(){
+        return "-Ingrediente: "+ingrediente.getNombre()+" (Tipo: "+ingrediente.getTipoIngrediente()+") - Cantidad: "+cantidad;
+    }
+
 
 
 

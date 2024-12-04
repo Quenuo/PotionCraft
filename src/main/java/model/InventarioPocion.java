@@ -15,4 +15,9 @@ public class InventarioPocion {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pocion_id",nullable = false,unique = true)
     private Pocion pocion;
+
+    @Override
+    public String toString(){
+        return "-Poción: "+pocion.getNombre()+" - Cantidad: "+cantidad;
+    }
 }

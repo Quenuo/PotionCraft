@@ -11,7 +11,8 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+
+    @Column(name = "tipo")
     private TipoIngrediente tipoIngrediente;
 
     @Column
@@ -34,6 +35,17 @@ public class Ingrediente {
 
     @Column
     private Long nivelToxicidad;
+
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public TipoIngrediente getTipoIngrediente() {
+        return tipoIngrediente;
+    }
+
+
 
 
 

@@ -15,6 +15,7 @@ public class Comerciante {
     @Column(nullable = false,length = 100)
     private String nombre;
 
+
     @Column(name = "tipo",nullable = false)
     private TipoComerciante tipoComerciante;
 
