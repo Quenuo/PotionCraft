@@ -28,6 +28,15 @@ public class Pocion {
         return nombre;
     }
 
+
+    public double obtenerCostoIngrediente(){
+        double costo=0;
+        for(Ingrediente ingrediente:ingredientes){
+            costo+=ingrediente.getPrecioCompra();
+        }
+        return  costo;
+    }
+
     @Override
     public String toString(){
 
@@ -37,14 +46,18 @@ public class Pocion {
                 +"\n";
     }
 
+
+
     private String mostrarIngredientesNecesarios(){
         StringBuilder listaIngredientes= new StringBuilder();
-        for(int i=0; i<ingredientes.size();i++){
-            listaIngredientes.append("- ").append(ingredientes.get(i).getNombre()).append(" (Tipo ").append(ingredientes.get(i).getTipoIngrediente()).append(")\n");
+        for (Ingrediente ingrediente : ingredientes) {
+            listaIngredientes.append("- ").append(ingrediente.getNombre()).append(" (Tipo ").append(ingrediente.getTipoIngrediente()).append(")\n");
 
         }
         return listaIngredientes.toString();
     }
+
+
 
 
 }

@@ -41,6 +41,10 @@ public class Ingrediente {
         return nombre;
     }
 
+    public Double getPrecioCompra(){
+        return precioCompra;
+    }
+
     public TipoIngrediente getTipoIngrediente() {
         return tipoIngrediente;
     }

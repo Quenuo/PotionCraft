@@ -95,7 +95,7 @@ public class MenuController {
                     break;
 
                 case 2:
-
+                    globalService.venderPocioens();
                     break;
 
                 case 3:

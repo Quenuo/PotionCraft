@@ -35,6 +35,10 @@ public class GlobalService {
         return  globalRepository.obtenerPociones();
     }
 
+    public void venderPocioens(){
+        globalRepository.venderPociones();
+    }
+
     public void cerrarConexion(){
         globalRepository.cerrarConexion();
     }

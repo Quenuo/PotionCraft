@@ -63,6 +63,39 @@ public class GlobalRepository {
         return  pociones;
     }
 
+    public void venderPociones(){
+        try {
+            entityManager.getTransaction().begin();
+            calcularBeneficios();
+            entityManager.createQuery("DELETE FROM InventarioPocion").executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+    private void calcularBeneficios(){
+        List<InventarioPocion> inventarioPociones=obtenerInventarioPociones();
+        if(!inventarioPociones.isEmpty()){
+            double gananciasTotales=0;
+            System.out.println("=========VENDIENDO TODAS LAS POCIONES=============");
+            for(InventarioPocion inventarioPocion:inventarioPociones){
+                long numeroPociones=inventarioPocion.getCantidad();
+                double gananciaPocion=inventarioPocion.venderPociones()*numeroPociones;
+                System.out.println("Has vendido "+numeroPociones+" unidades de "+inventarioPocion.getPocion().getNombre()+" por "+gananciaPocion+" monedas de oro");
+                gananciasTotales+=gananciaPocion;
+            }
+            System.out.println("TOTAL de ganancias: "+gananciasTotales+" monedas de oro");
+        }else{
+            System.out.println("Sin pociones que vender!!!");
+        }
+
+    }
+
     public void eliminarDatosGuardados(){
         try {
             entityManager.getTransaction().begin();
