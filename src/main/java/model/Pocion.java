@@ -27,4 +27,24 @@ public class Pocion {
     public String getNombre() {
         return nombre;
     }
+
+    @Override
+    public String toString(){
+
+        return "Poción: "+nombre+"\n"
+                +"Ingredientes necesarios: \n"
+                +mostrarIngredientesNecesarios()
+                +"\n";
+    }
+
+    private String mostrarIngredientesNecesarios(){
+        StringBuilder listaIngredientes= new StringBuilder();
+        for(int i=0; i<ingredientes.size();i++){
+            listaIngredientes.append("- ").append(ingredientes.get(i).getNombre()).append(" (Tipo ").append(ingredientes.get(i).getTipoIngrediente()).append(")\n");
+
+        }
+        return listaIngredientes.toString();
+    }
+
+
 }

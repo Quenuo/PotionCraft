@@ -5,16 +5,18 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
+import model.Comerciante;
 import model.InventarioIngrediente;
 import model.InventarioPocion;
+import model.Pocion;
 
 import java.util.List;
 
 
 public class GlobalRepository {
     private static GlobalRepository globalRepository;
-    private  EntityManagerFactory entityManagerFactory;
-    private  EntityManager entityManager;
+    private final EntityManagerFactory entityManagerFactory;
+    private final EntityManager entityManager;
 
 
 
@@ -45,6 +47,20 @@ public class GlobalRepository {
         Query query=entityManager.createQuery(consultaSQL);
         List<InventarioIngrediente> inventarioIngredientes=query.getResultList();
         return inventarioIngredientes;
+    }
+
+    public List<Comerciante> obtenerComerciantes(){
+        String consultaSQL="SELECT c FROM Comerciante c";
+        Query query=entityManager.createQuery(consultaSQL);
+        List<Comerciante> comerciantes=query.getResultList();
+        return  comerciantes;
+    }
+
+    public List<Pocion> obtenerPociones(){
+        String consultaSQL="SELECT p FROM Pocion p";
+        Query query=entityManager.createQuery(consultaSQL);
+        List<Pocion> pociones=query.getResultList();
+        return  pociones;
     }
 
     public void eliminarDatosGuardados(){

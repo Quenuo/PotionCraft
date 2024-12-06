@@ -15,7 +15,10 @@ public class Comerciante {
     @Column(nullable = false,length = 100)
     private String nombre;
 
-
+    @Enumerated(EnumType.STRING)//no he especificado el enum , y es un gran error
+    //ya que al estar en la base de datos como string en ver de ordinal y aqui el por defectome es el ordinal
+    //hibernate sobrescribe la base de datos para acerlo ordinal mostrando numeros en vez de texto petandome luego al obtener comerciartnte
+    //error potencialmente grave,
     @Column(name = "tipo",nullable = false)
     private TipoComerciante tipoComerciante;
 
@@ -26,6 +29,14 @@ public class Comerciante {
             inverseJoinColumns = @JoinColumn(name = "ingrediente_id")
     )
     private List<Ingrediente> ingredientes;
+
+    @Override
+    public String toString(){
+        return "Comerciante: "+nombre+" (Tipo "+tipoComerciante+") - Ingrediente que puede vender: "+ingredientes.size();
+    }
+
+
+
 
 
 }

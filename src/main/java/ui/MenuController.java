@@ -113,10 +113,13 @@ public class MenuController {
                     break;
 
                 case 5:
-
+                    System.out.println("Opción seleccionada: MOSTRAR COMERCIANTES");
+                    recorrerLista(globalService.obtenerComerciantes());
                     break;
 
                 case 6:
+                    System.out.println("Opción seleccionada: MOSTRAR POCIONES");
+                    recorrerLista(globalService.obtenerPociones());
                     break;
 
                 case 7:

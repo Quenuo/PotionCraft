@@ -2,7 +2,7 @@ package model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+
 
 @Entity
 @Table
@@ -11,7 +11,7 @@ public class Ingrediente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo")
     private TipoIngrediente tipoIngrediente;
 
