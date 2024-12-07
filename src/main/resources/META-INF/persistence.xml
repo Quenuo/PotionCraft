@@ -17,7 +17,7 @@
             <!-- Si tengo una Entity o columna que no está en BBDD, la crea -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <!-- Muestra las consultas en consola como logs -->
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
         </properties>
     </persistence-unit>
 </persistence>

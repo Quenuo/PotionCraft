@@ -1,0 +1,19 @@
+Licencia de Uso Personal y Educativo
+
+Este proyecto está protegido por derechos de autor, pero se permite su uso bajo las siguientes condiciones:
+
+1. **Uso permitido:**
+   - Uso personal y educativo.
+   - Consultar el código para aprender o inspirarse en su implementación.
+
+2. **Prohibiciones:**
+   - No se permite la redistribución del código, completo o parcial, sin el permiso explícito del autor.
+   - No se permite su uso con fines comerciales.
+   - No se permite realizar modificaciones y distribuir versiones derivadas sin autorización.
+
+3. **Autorización adicional:**
+   - Si deseas utilizar este proyecto fuera de los términos indicados, contacta al autor para obtener permiso.
+
+---
+
+Si tienes dudas sobre esta licencia, puedes comunicarte con el autor.
