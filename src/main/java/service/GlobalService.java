@@ -7,6 +7,7 @@ import model.Pocion;
 import repository.GlobalRepository;
 
 import java.util.List;
+import java.util.Random;
 
 public class GlobalService {
     private GlobalRepository globalRepository;
@@ -35,7 +36,15 @@ public class GlobalService {
         return  globalRepository.obtenerPociones();
     }
 
-    public void venderPocioens(){
+    public Comerciante obtenerComercianteAleatorio(){
+            return globalRepository.obtenerComercianteAleatorio();
+    }
+
+    public void comprarIngredientes(InventarioIngrediente ingrediente){
+        globalRepository.comprarIngredientes(ingrediente);
+    }
+
+    public void venderPociones(){
         globalRepository.venderPociones();
     }
 

@@ -11,6 +11,7 @@ import model.InventarioPocion;
 import model.Pocion;
 
 import java.util.List;
+import java.util.Random;
 
 
 public class GlobalRepository {
@@ -76,6 +77,20 @@ public class GlobalRepository {
 
     }
 
+    public Comerciante obtenerComercianteAleatorio(){
+        Random random=new Random();
+        int comercianteEscogido=random.nextInt(0,obtenerComerciantes().size());
+        return obtenerComerciantes().get(comercianteEscogido);
+    }
+    //he creado este metodo debido a que puede producirse la ocasio en la que se pueda comprar un ingrediente
+    //que ya tenga el usuario comprado, y al tratar de hace un persist(un INSERT) ,a una tabla donde id ya esista(es decir
+    //donde el usuario ya tenga ese ingrediente), produce error for Duplicate entry
+    private InventarioIngrediente obtenerIngredienteComprado(Long id){
+        String consultaSQL="SELECT i FROM  InventarioIngrediente i WHERE i.ingrediente.id  = :id";
+        Query query=entityManager.createQuery(consultaSQL,InventarioIngrediente.class).setParameter("id",id);
+        return (InventarioIngrediente) query.getSingleResultOrNull();
+    }
+
 
 
     private void calcularBeneficios(){
@@ -96,13 +111,36 @@ public class GlobalRepository {
 
     }
 
+    public void comprarIngredientes(InventarioIngrediente ingrediente){
+        try {
+            entityManager.getTransaction().begin();
+            InventarioIngrediente ingredienteExistente=obtenerIngredienteComprado(ingrediente.getIdIngrediente());
+            if(ingredienteExistente==null){//si no se ha obtenido registros, esque todavia no se ha comprado
+                //el ingrediente por lo que hago un insert(persist)
+                entityManager.persist(ingrediente);
+            }else{
+                //por el contrario si existe registros, (que ya se ha comprado el ingrediente)
+                //actualizo la tabla , sumandole la nueva cantidad
+                //mediante update(merge)
+                long cantidadExistente=ingredienteExistente.getCantidad();
+                long cantidadNueva=cantidadExistente+ingrediente.getCantidad();
+                ingredienteExistente.setCantidad(cantidadNueva);
+                entityManager.merge(ingredienteExistente);
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public void eliminarDatosGuardados(){
         try {
             entityManager.getTransaction().begin();
 
             entityManager.createQuery("DELETE FROM InventarioPocion").executeUpdate();
             entityManager.createQuery("DELETE FROM InventarioIngrediente ").executeUpdate();
-
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();

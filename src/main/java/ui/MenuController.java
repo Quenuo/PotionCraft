@@ -1,11 +1,12 @@
 package ui;
 
 import data.ReputacionManager;
+import model.Comerciante;
+import model.Ingrediente;
+import model.InventarioIngrediente;
 import service.GlobalService;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MenuController {
     private static int reputacion;
@@ -54,17 +55,34 @@ public class MenuController {
         }while (!elegioOpcion);
     }
 
+    private static int arreglarCantidad(String pregunta,Scanner scanner) {
+        boolean opcionCorrecta=false;
+        int cantidad;
+        do {
+            cantidad=arreglarint(pregunta,scanner);
+            if(cantidad>0){
+                opcionCorrecta=true;
+            }else{
+                System.err.println("Elige una cantidad correcta!!!");
+            }
+
+        }while (!opcionCorrecta);
+        return cantidad;
+
+    }
+
     private  static int arreglarint(String pregunta, Scanner scanner){
         boolean opcionCorrecta=false;
-        int respuesta=0;
+        int respuesta = 0;
         do {
             try{
                 if(!pregunta.isBlank()){
                     System.out.println(pregunta);
                 }
+
+
                 respuesta=scanner.nextInt();
                 opcionCorrecta=true;
-
 
             } catch (InputMismatchException e) {
                 System.err.println("Escribe un numero valido");
@@ -95,11 +113,12 @@ public class MenuController {
                     break;
 
                 case 2:
-                    globalService.venderPocioens();
+                    globalService.venderPociones();
                     break;
 
                 case 3:
-
+                    Comerciante comerciante= globalService.obtenerComercianteAleatorio();
+                    generarAccionMenu3(comerciante,scanner);
                     break;
 
                 case 4:
@@ -136,6 +155,63 @@ public class MenuController {
 
 
         }while (!elegioOpcion);
+    }
+
+    private static void generarMenu3(Comerciante comerciante){
+        System.out.println("Visita: "+comerciante.getNombre()+" ("+comerciante.getTipoComerciante()+")");
+        System.out.println("========Menú de compra =====");
+        System.out.println("Ingredientes disponibles:");
+    }
+
+
+
+    private static void generarAccionMenu3(Comerciante comerciante, Scanner scanner) {
+        generarMenu3(comerciante);
+        List<Ingrediente> ingredientes = obtenerIngredientesAleatroios(comerciante.getIngredientes());
+        boolean elegioOpcion = false;
+        double gastoTotal = 0;
+
+        do {
+            mostrarIngredientesTienda(ingredientes);
+            int ingredienteEscogido = arreglarint("Seleccione el número del ingrediente que desea comprar:", scanner);
+
+            if (ingredienteEscogido == 0) {
+                elegioOpcion = true;
+                System.out.println("Fin de la visita de " + comerciante.getNombre() + "\n" + "ORO TOTAL INVERTIDO: " + gastoTotal + " oros");
+            } else if (ingredienteEscogido > 0 && ingredienteEscogido <= ingredientes.size()) {
+                Ingrediente ingredienteSeleccionado = ingredientes.get(ingredienteEscogido - 1);
+                System.out.println("Has seleccionado: " + ingredienteSeleccionado.getNombre());
+
+                long cantidad = arreglarCantidad("¿Cuántas unidades desea comprar?", scanner);
+                InventarioIngrediente inventarioIngrediente = new InventarioIngrediente(cantidad, ingredienteSeleccionado);
+                globalService.comprarIngredientes(inventarioIngrediente);
+                System.out.println("Has comprado "+inventarioIngrediente.getCantidad()+" unidades de "+inventarioIngrediente.getNombre()+" por "+inventarioIngrediente.calcularGasto());
+
+                gastoTotal += inventarioIngrediente.calcularGasto();
+            } else {
+                System.err.println("Elige un ingrediente correcto!!!");
+            }
+        } while (!elegioOpcion);
+    }
+
+
+
+    private static List<Ingrediente> obtenerIngredientesAleatroios(List<Ingrediente> ingredienteList){
+        Random random=new Random();
+        List<Ingrediente> ingredientes=new ArrayList<>();
+        for(int i=1;i<6;i++){
+            int ingredienteEscogido=random.nextInt(0,ingredienteList.size());
+            ingredientes.add(ingredienteList.get(ingredienteEscogido));
+        }
+        return ingredientes;
+    }
+
+    private static void mostrarIngredientesTienda(List<Ingrediente> ingredientes){
+        for(int i=1;i<6;i++){
+            System.out.println(i+". "+ingredientes.get(i-1));
+        }
+        System.out.println(0+". Salir");
+
     }
 
     private static <G> void recorrerLista(List<G> list){

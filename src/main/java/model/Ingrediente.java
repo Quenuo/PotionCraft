@@ -36,6 +36,9 @@ public class Ingrediente {
     @Column
     private Long nivelToxicidad;
 
+    public Long getId() {
+        return id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -49,12 +52,9 @@ public class Ingrediente {
         return tipoIngrediente;
     }
 
-
-
-
-
-
-
-
+    @Override
+    public String toString(){
+        return nombre+" (Tipo: "+getTipoIngrediente()+ ") - Precio:"+precioCompra;
+    }
 
 }

@@ -30,6 +30,18 @@ public class Comerciante {
     )
     private List<Ingrediente> ingredientes;
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public TipoComerciante getTipoComerciante(){
+        return tipoComerciante;
+    }
+
+    public List<Ingrediente> getIngredientes(){
+        return ingredientes;
+    }
+
     @Override
     public String toString(){
         return "Comerciante: "+nombre+" (Tipo "+tipoComerciante+") - Ingrediente que puede vender: "+ingredientes.size();
