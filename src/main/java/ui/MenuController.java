@@ -1,12 +1,11 @@
 package ui;
 
 import data.ReputacionManager;
-import model.Comerciante;
-import model.Ingrediente;
-import model.InventarioIngrediente;
+import model.*;
 import service.GlobalService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MenuController {
     private static int reputacion;
@@ -30,7 +29,7 @@ public class MenuController {
                 int opcionUsuario=arreglarint("",scanner);
                 if(opcionUsuario==1){
                     reputacionManager.borrarFicheroReputacion();
-                    //globalService.eliminarGuardado();
+                    globalService.eliminarInventario();
                     generarAccionesMenu(scanner,reputacionManager);
                 }else if(opcionUsuario==2){
                     reputacionManager.abrirGuardado();
@@ -45,8 +44,6 @@ public class MenuController {
                 int opcionUsuario=arreglarint("",scanner);
                 if(opcionUsuario==1){
                     generarAccionesMenu(scanner,reputacionManager);
-
-
                 }else{
                     System.err.println("Elige una opcion correcta");
                     elegioOpcion=false;
@@ -92,6 +89,87 @@ public class MenuController {
         return respuesta;
     }
 
+    private static Map<Pocion,List<InventarioIngrediente>>  generarMenu1(){
+        System.out.println("========Pociones disponibles para fabricar==============");
+        //Map pocion,lista ingrediente , lo busco
+        List<Pocion> pociones=globalService.obtenerPociones();
+        List<InventarioIngrediente> ingredientes=globalService.obtenerInventarioIngredientes();
+        Map<Pocion,List<InventarioIngrediente>> pocionesFabricables=new HashMap<>();
+        if(!ingredientes.isEmpty()){
+            Set<Ingrediente> ingredientesAlmacenados = ingredientes.stream()
+                    .map(InventarioIngrediente::getIngrediente)
+                    .collect(Collectors.toSet());
+            int indice=0;
+            for(Pocion pocion:pociones){
+                if (ingredientesAlmacenados.containsAll(pocion.getIngredientes())){
+                    indice++;
+                    System.out.println(indice+". "+pocion);
+                    List<InventarioIngrediente> inventarioIngredientes=ingredientes.stream().filter(ingrediente -> pocion.getIngredientes().contains(ingrediente.getIngrediente())).toList();
+                    pocionesFabricables.put(pocion,inventarioIngredientes);
+                }
+            }
+        }
+
+        return pocionesFabricables;
+    }
+
+    private static void generarAccionMenu1(Scanner scanner){
+       Map<Pocion,List<InventarioIngrediente>> pocionListMap= generarMenu1();
+       List<Pocion> pocionesCrafteable=pocionListMap.keySet().stream().toList();
+       if(pocionesCrafteable.isEmpty()){
+           System.out.println("Te faltan ingredientes necesarios para fabricar alguna poción");
+       }else{
+           boolean eligioAccion=true;
+           do {
+               int pocionElegida=arreglarint("Seleccione el número de la pocion que desee craftear",scanner);
+               if(pocionElegida > 0 && pocionElegida <= pocionesCrafteable.size()){
+                   Pocion pocionFabricable=pocionesCrafteable.get(pocionElegida-1);
+                   System.out.println("Has seleccionado fabricar: "+pocionFabricable.getNombre());
+                   calcularReputacion(pocionFabricable.getIngredientes());
+                   InventarioPocion pocion=new InventarioPocion(pocionFabricable);
+                   List<InventarioIngrediente> ingredientes=pocionListMap.get(pocionFabricable);
+                   globalService.agregarPocion(pocion,ingredientes);
+                   System.out.println("Poción fabricada con éxito "+pocionFabricable.getNombre());
+
+               }else if(pocionElegida==0){
+                   System.out.println("Cancelando !!!");
+               }else{
+                   System.err.println("Elige una poción correcta!!!!");
+                   eligioAccion=false;
+               }
+
+           }while (!eligioAccion);
+
+
+           System.out.println("O.Cancelar");
+       }
+
+    }
+
+    private static void calcularReputacion(List<Ingrediente> ingredientes){
+        int reputacionNegativa=0;
+        int reputacionPositiva=0;
+        int reputacionCambiada=0;
+
+        for(Ingrediente ingrediente:ingredientes){
+            if(ingrediente.getEfectoNegativo()!=null){
+                reputacionNegativa++;
+
+            }else if(ingrediente.getEfectoPositivo()!=null){
+                reputacionPositiva++;
+            }
+
+        }
+        if(reputacionNegativa<reputacionPositiva){
+            reputacion++;
+            reputacionCambiada++;
+        }else if(reputacionPositiva<reputacionNegativa){
+            reputacion--;
+            reputacionCambiada--;
+        }
+        System.out.println("Reputación actualizada: "+reputacionCambiada+" (Positivos: "+reputacionPositiva+", Negativos: "+reputacionNegativa+")");
+    }
+
     private static void generarMenu(){
         System.out.println("1. Crear pociones");
         System.out.println("2. Vender pociones");
@@ -109,7 +187,7 @@ public class MenuController {
             int accionEscogida=arreglarint("",scanner);
             switch (accionEscogida){
                 case 1:
-
+                    generarAccionMenu1(scanner);
                     break;
 
                 case 2:
@@ -145,7 +223,7 @@ public class MenuController {
                     scanner.close();
                     reputacionManager.abrirGuardado();
                     reputacionManager.guardarReputacion(reputacion);
-                    globalService.cerrarConexion();
+                    globalService.cerrarConexionBaseDatos();
                     elegioOpcion=true;
                     break;
                 default:

@@ -25,6 +25,7 @@ public class InventarioIngrediente {
         this.ingrediente=ingrediente;
     }
 
+
     public Long getCantidad() {
         return cantidad;
     }
@@ -40,6 +41,10 @@ public class InventarioIngrediente {
 
     public Long getIdIngrediente(){
         return ingrediente.getId();
+    }
+
+    public Ingrediente getIngrediente() {
+        return ingrediente;
     }
 
     public Double calcularGasto(){

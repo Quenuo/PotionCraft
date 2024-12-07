@@ -3,6 +3,7 @@ package model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -24,10 +25,17 @@ public class Pocion {
     )
     private List<Ingrediente> ingredientes;
 
+    public Long getId() {
+        return id;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
+    public List<Ingrediente> getIngredientes() {
+        return ingredientes;
+    }
 
     public double obtenerCostoIngrediente(){
         double costo=0;
@@ -46,7 +54,17 @@ public class Pocion {
                 +"\n";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Pocion pocion = (Pocion) o;
+        return Objects.equals(id, pocion.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 
     private String mostrarIngredientesNecesarios(){
         StringBuilder listaIngredientes= new StringBuilder();

@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
 
 
 @Entity
@@ -50,6 +51,26 @@ public class Ingrediente {
 
     public TipoIngrediente getTipoIngrediente() {
         return tipoIngrediente;
+    }
+
+    public String getEfectoNegativo() {
+        return efectoNegativo;
+    }
+
+    public String getEfectoPositivo() {
+        return efectoPositivo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingrediente that = (Ingrediente) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     @Override

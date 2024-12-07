@@ -5,10 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
-import model.Comerciante;
-import model.InventarioIngrediente;
-import model.InventarioPocion;
-import model.Pocion;
+import model.*;
 
 import java.util.List;
 import java.util.Random;
@@ -64,6 +61,42 @@ public class GlobalRepository {
         return  pociones;
     }
 
+    public void agregarPocion(InventarioPocion pocion,List<InventarioIngrediente> ingredientes){
+        try {
+            entityManager.getTransaction().begin();
+            InventarioPocion pocionExistente=obtenerPocionFabricada(pocion.getIdPocion());
+            agregarElemento(pocion,pocionExistente);
+            entityManager.getTransaction().commit();
+            //lo he hecho dependiente del metodo agregar pocion por pura logica
+            //si se ha podido añadir la pocion puedo quitaler los ingredientes
+            //si ha fallado , no se han usado los ingredientes
+            actualizarIngredientes(ingredientes);
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
+    }
+    private void actualizarIngredientes(List<InventarioIngrediente> ingredientesUsados){
+        try {
+            entityManager.getTransaction().begin();
+            for(InventarioIngrediente ingrediente:ingredientesUsados){
+                long cantidadRestante= ingrediente.getCantidad()-1;
+                if(cantidadRestante==0){
+                    entityManager.remove(ingrediente);
+                }else{
+                    ingrediente.setCantidad(cantidadRestante);
+                    entityManager.merge(ingrediente);
+                }
+            }
+            entityManager.getTransaction().commit();
+
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public void venderPociones(){
         try {
             entityManager.getTransaction().begin();
@@ -91,6 +124,12 @@ public class GlobalRepository {
         return (InventarioIngrediente) query.getSingleResultOrNull();
     }
 
+    private InventarioPocion obtenerPocionFabricada(Long id){
+        String consultaSQL="SELECT i FROM  InventarioPocion i WHERE i.pocion.id  = :id";
+        Query query=entityManager.createQuery(consultaSQL,InventarioPocion.class).setParameter("id",id);
+        return (InventarioPocion) query.getSingleResultOrNull();
+    }
+
 
 
     private void calcularBeneficios(){
@@ -111,22 +150,29 @@ public class GlobalRepository {
 
     }
 
+    private void agregarElemento(InventarioPocion pocion, InventarioPocion pocionExistente) {
+        if (pocionExistente == null) {
+            entityManager.persist(pocion);
+        } else {
+            long cantidadNueva = pocionExistente.getCantidad() + pocion.getCantidad();
+            pocionExistente.setCantidad(cantidadNueva);
+        }
+    }
+
+    private void agregarElemento(InventarioIngrediente ingrediente, InventarioIngrediente ingredienteExistente) {
+        if (ingredienteExistente == null) {
+            entityManager.persist(ingrediente);
+        } else {
+            long cantidadNueva = ingredienteExistente.getCantidad() + ingrediente.getCantidad();
+            ingredienteExistente.setCantidad(cantidadNueva);
+        }
+    }
+
     public void comprarIngredientes(InventarioIngrediente ingrediente){
         try {
             entityManager.getTransaction().begin();
             InventarioIngrediente ingredienteExistente=obtenerIngredienteComprado(ingrediente.getIdIngrediente());
-            if(ingredienteExistente==null){//si no se ha obtenido registros, esque todavia no se ha comprado
-                //el ingrediente por lo que hago un insert(persist)
-                entityManager.persist(ingrediente);
-            }else{
-                //por el contrario si existe registros, (que ya se ha comprado el ingrediente)
-                //actualizo la tabla , sumandole la nueva cantidad
-                //mediante update(merge)
-                long cantidadExistente=ingredienteExistente.getCantidad();
-                long cantidadNueva=cantidadExistente+ingrediente.getCantidad();
-                ingredienteExistente.setCantidad(cantidadNueva);
-                entityManager.merge(ingredienteExistente);
-            }
+            agregarElemento(ingrediente,ingredienteExistente);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();

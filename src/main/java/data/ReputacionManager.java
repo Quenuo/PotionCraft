@@ -1,9 +1,4 @@
 package data;
-/*TODO el fichero aleatorio tendra el nombre de reputacion.dat en resources/utils puesto que puede existir
- * existir o no se encarga de la creacion esta clase
- * TODO preguntar si el reputacion manager debe de crear la carpeta donde esta el fichero en caso de que no existiera
- *  o por el contrario ya esta crado de antemano
- */
 
 import java.io.File;
 import java.io.FileNotFoundException;

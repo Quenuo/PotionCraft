@@ -7,8 +7,6 @@ import model.Pocion;
 import repository.GlobalRepository;
 
 import java.util.List;
-import java.util.Random;
-
 public class GlobalService {
     private GlobalRepository globalRepository;
 
@@ -16,12 +14,16 @@ public class GlobalService {
         globalRepository=GlobalRepository.getInstance();
     }
 
-    public void eliminarGuardado(){
+    public void eliminarInventario(){
         globalRepository.eliminarDatosGuardados();
     }
 
     public List<InventarioIngrediente> obtenerInventarioIngredientes(){
         return globalRepository.obtenerInventarioIngredientes();
+    }
+
+    public void agregarPocion(InventarioPocion pocion, List<InventarioIngrediente> ingredientes){
+         globalRepository.agregarPocion(pocion,ingredientes);
     }
 
     public List<InventarioPocion> obtenerInventarioPociones(){
@@ -48,7 +50,7 @@ public class GlobalService {
         globalRepository.venderPociones();
     }
 
-    public void cerrarConexion(){
+    public void cerrarConexionBaseDatos(){
         globalRepository.cerrarConexion();
     }
 }
