@@ -7,6 +7,7 @@ import model.Pocion;
 import repository.GlobalRepository;
 
 import java.util.List;
+//esta clase me sirve como conector entre el resto de clases y la clase que gestiona la base de datos(repositorio)
 public class GlobalService {
     private GlobalRepository globalRepository;
 

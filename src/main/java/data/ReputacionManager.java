@@ -7,7 +7,7 @@ import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+//esta clase es la que se encarga de gestionar el fichero de acceso aleatorio
 public class ReputacionManager {
     private static ReputacionManager reputacionManager;
     private final static String rutaFicheroReputacion= "src"+File.separator+"main"+File.separator+"resources"+File.separator+"utils"+File.separator+"reputacion.dat";
@@ -21,7 +21,7 @@ public class ReputacionManager {
 
 
     }
-
+    //uso el patron Singlenton para garantizar una única instancia de la clase y la clase Random Acces File
     public static ReputacionManager getInstance(){
         if(reputacionManager==null){
             reputacionManager=new ReputacionManager();
@@ -30,10 +30,9 @@ public class ReputacionManager {
     }
 
 
-    //me peta al borrar ya que se necesita cerrarse para pòder borrar
-    //por lo que solo usare este metodo al crear nueva partida cuando
-
-    public void abrirGuardado(){
+    //para iniciar la conexion con el fichero de acceso aleatorio , al no iniciarla
+    //en el constructor
+    private  void abrirGuardado(){
         if (randomAccessFile==null || !randomAccessFile.getChannel().isOpen()){
             try {
                 randomAccessFile=new RandomAccessFile(rutaFicheroReputacion,"rw");
@@ -43,18 +42,16 @@ public class ReputacionManager {
         }
     }
 
+    //para borrar el fichero de
     public void borrarFicheroReputacion(){
-        cerrarFicheroReputacion();
         try {
             Files.deleteIfExists(path);
-            //despues de borrar el guradado vuelvo a abrir el f
-            abrirGuardado();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-
+    //para cerrar la conexion con el fichero .dat
     public void cerrarFicheroReputacion(){
         if(randomAccessFile!=null){
             try {
@@ -65,10 +62,11 @@ public class ReputacionManager {
         }
 
     }
-
+    //En caso de cargar la partida con este metodo se acerde a la reputacion, y se guarda en una variable estatica
     public int obtenerReputacionInicial(){
         int reputacion;
         try {
+            abrirGuardado();
             randomAccessFile.seek(0);
             reputacion=randomAccessFile.readInt();
         } catch (IOException e) {
@@ -77,8 +75,10 @@ public class ReputacionManager {
         return reputacion;
     }
 
+    //para guardar la reputacion
     public void guardarReputacion(int reputacion){
         try {
+            abrirGuardado();
             randomAccessFile.seek(0);
             randomAccessFile.writeInt(reputacion);
         } catch (IOException e) {
@@ -88,8 +88,8 @@ public class ReputacionManager {
     }
 
     public boolean existeFicheroReputacion(){
-        //el problema es que siempre existira el fichero al tener que la instancia de reputacion manager
-        //por lo que necesito verificar su tamaño(o que readInt se distinto a nulo)
+        //el problema es que siempre existira el fichero al tener que la instancia de reputación manager
+        //por eso he decidido no meter el new Random acces en el constructor privado(aunque otra alternativa era hacer este metodo estático)
         return Files.exists(path);
     }
 

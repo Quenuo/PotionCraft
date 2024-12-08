@@ -17,7 +17,7 @@ public class Comerciante {
 
     @Enumerated(EnumType.STRING)//no he especificado el enum , y es un gran error
     //ya que al estar en la base de datos como string en ver de ordinal y aqui el por defectome es el ordinal
-    //hibernate sobrescribe la base de datos para acerlo ordinal mostrando numeros en vez de texto petandome luego al obtener comerciartnte
+    //hibernate sobrescribe la base de datos para hacerlo ordinal mostrando numeros en vez de texto petandome luego al obtener comerciartnte
     //error potencialmente grave,
     @Column(name = "tipo",nullable = false)
     private TipoComerciante tipoComerciante;

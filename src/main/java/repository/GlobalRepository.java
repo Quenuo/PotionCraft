@@ -10,7 +10,7 @@ import model.*;
 import java.util.List;
 import java.util.Random;
 
-
+//Esta clase la uso para manejar la conexión de java y la base de datos
 public class GlobalRepository {
     private static GlobalRepository globalRepository;
     private final EntityManagerFactory entityManagerFactory;
@@ -22,7 +22,6 @@ public class GlobalRepository {
     private GlobalRepository(){
         entityManagerFactory = Persistence.createEntityManagerFactory("potion-craft");
         entityManager=entityManagerFactory.createEntityManager();
-
     }
 
     public static GlobalRepository getInstance(){
@@ -32,35 +31,35 @@ public class GlobalRepository {
         return globalRepository;
     }
 
-
+    //para obtener una lista de las pociones que tiene el usuario fabricadas
     public List<InventarioPocion> obtenerInventarioPociones(){
         String consultaSQL="SELECT i FROM InventarioPocion i";
         Query query=entityManager.createQuery(consultaSQL);
         List<InventarioPocion> inventarioPociones=query.getResultList();
         return inventarioPociones;
     }
-
+    //para obtener la lista de los ingredientes que tiene el usuario
     public List<InventarioIngrediente> obtenerInventarioIngredientes(){
         String consultaSQL="SELECT i FROM InventarioIngrediente i";
         Query query=entityManager.createQuery(consultaSQL);
         List<InventarioIngrediente> inventarioIngredientes=query.getResultList();
         return inventarioIngredientes;
     }
-
+    //para obtener una lista de todos los comerciantes que pueden visitar al usuario
     public List<Comerciante> obtenerComerciantes(){
         String consultaSQL="SELECT c FROM Comerciante c";
         Query query=entityManager.createQuery(consultaSQL);
         List<Comerciante> comerciantes=query.getResultList();
         return  comerciantes;
     }
-
+    //para obtener una lsita de todas las pociones de la base de datos
     public List<Pocion> obtenerPociones(){
         String consultaSQL="SELECT p FROM Pocion p";
         Query query=entityManager.createQuery(consultaSQL);
         List<Pocion> pociones=query.getResultList();
         return  pociones;
     }
-
+    //metodo para fabricar una pocion usando ingredientes del usuario
     public void agregarPocion(InventarioPocion pocion,List<InventarioIngrediente> ingredientes){
         try {
             entityManager.getTransaction().begin();
@@ -76,6 +75,8 @@ public class GlobalRepository {
             throw new RuntimeException(e);
         }
     }
+
+    //metodo para actualizar los ingredientes restantes , al haberlos usado para hacer pociones
     private void actualizarIngredientes(List<InventarioIngrediente> ingredientesUsados){
         try {
             entityManager.getTransaction().begin();
@@ -97,6 +98,7 @@ public class GlobalRepository {
 
     }
 
+    //metodo para vender todas  pociones hechas por el usuario
     public void venderPociones(){
         try {
             entityManager.getTransaction().begin();
@@ -109,7 +111,7 @@ public class GlobalRepository {
         }
 
     }
-
+    //metodo para obtener un comerciante aleatorio
     public Comerciante obtenerComercianteAleatorio(){
         Random random=new Random();
         int comercianteEscogido=random.nextInt(0,obtenerComerciantes().size());
@@ -131,7 +133,8 @@ public class GlobalRepository {
     }
 
 
-
+    //metodo para calcular el dinero ganado por vender cada pocion
+    //aunque realmente no importa aqui el dinero es infinito
     private void calcularBeneficios(){
         List<InventarioPocion> inventarioPociones=obtenerInventarioPociones();
         if(!inventarioPociones.isEmpty()){
@@ -149,7 +152,8 @@ public class GlobalRepository {
         }
 
     }
-
+    //metodo para agregar un nuevo elemento(pocion,ingrediente), al inventario del usuario
+    //o aumentar su cantidad en el caso de que ya exista
     private void agregarElemento(InventarioPocion pocion, InventarioPocion pocionExistente) {
         if (pocionExistente == null) {
             entityManager.persist(pocion);
@@ -167,7 +171,7 @@ public class GlobalRepository {
             ingredienteExistente.setCantidad(cantidadNueva);
         }
     }
-
+    //metodo para compar ingredientes al comerciante
     public void comprarIngredientes(InventarioIngrediente ingrediente){
         try {
             entityManager.getTransaction().begin();

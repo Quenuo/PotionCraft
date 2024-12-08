@@ -6,7 +6,7 @@ import service.GlobalService;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+//clase que se encarga de generar el menu y la funcionalidad del juego
 public class MenuController {
     private static int reputacion;
     private static GlobalService globalService;
@@ -14,7 +14,6 @@ public class MenuController {
     public MenuController(){
         globalService=new GlobalService();
     }
-
 
     public void generarInicioAplicacion(){
         System.out.println("====== BIENVENIDO A POTIONCRAFT =======");
@@ -32,7 +31,6 @@ public class MenuController {
                     globalService.eliminarInventario();
                     generarAccionesMenu(scanner,reputacionManager);
                 }else if(opcionUsuario==2){
-                    reputacionManager.abrirGuardado();
                     reputacion=reputacionManager.obtenerReputacionInicial();
                     generarAccionesMenu(scanner,reputacionManager);
 
@@ -89,21 +87,30 @@ public class MenuController {
         return respuesta;
     }
 
+    //metodo para generar el menu de la funcionalidad 1
     private static Map<Pocion,List<InventarioIngrediente>>  generarMenu1(){
         System.out.println("========Pociones disponibles para fabricar==============");
-        //Map pocion,lista ingrediente , lo busco
+       //para poder mostrar la lsita de pociones que se pueden crafter segun los ingredientes almacenado
+        //primero obtengo todas las pociones del juego y todos los ingredientes que tiene el usuario
         List<Pocion> pociones=globalService.obtenerPociones();
         List<InventarioIngrediente> ingredientes=globalService.obtenerInventarioIngredientes();
-        Map<Pocion,List<InventarioIngrediente>> pocionesFabricables=new HashMap<>();
+        Map<Pocion,List<InventarioIngrediente>> pocionesFabricables=new HashMap<>();//cada pocion que se podra frabrica
+        //se guardara junto, a la lsita de ingredientes necesario para fabricarla
+
         if(!ingredientes.isEmpty()){
+            //En un set de ingredientes guardo de cada inventario ingrediente su ingrediente
             Set<Ingrediente> ingredientesAlmacenados = ingredientes.stream()
                     .map(InventarioIngrediente::getIngrediente)
                     .collect(Collectors.toSet());
             int indice=0;
             for(Pocion pocion:pociones){
+                //sobre cada pocion del juego se coge su lista de ingredientes que necesitan para crafter esa pocion
+                //si entre todos los ingredientes que tiene el usuario están los ingredientes necesarios para fabricar esa pocion
                 if (ingredientesAlmacenados.containsAll(pocion.getIngredientes())){
                     indice++;
                     System.out.println(indice+". "+pocion);
+                    //Se guarda en una lista como posible crafteable y se guarda en el mapa
+                    //junto la lista de ingredientes que se necesitan para frabricar esa pocion
                     List<InventarioIngrediente> inventarioIngredientes=ingredientes.stream().filter(ingrediente -> pocion.getIngredientes().contains(ingrediente.getIngrediente())).toList();
                     pocionesFabricables.put(pocion,inventarioIngredientes);
                 }
@@ -221,8 +228,8 @@ public class MenuController {
 
                 case 7:
                     scanner.close();
-                    reputacionManager.abrirGuardado();
                     reputacionManager.guardarReputacion(reputacion);
+                    reputacionManager.cerrarFicheroReputacion();
                     globalService.cerrarConexionBaseDatos();
                     elegioOpcion=true;
                     break;

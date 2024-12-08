@@ -2,7 +2,6 @@ package model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
 
 @Entity
 @Table
@@ -50,12 +49,6 @@ public class InventarioPocion {
     public Long getIdPocion(){
         return  pocion.getId();
     }
-
-
-    public List<Ingrediente> getIngredientes(){
-        return pocion.getIngredientes();
-    }
-
 
 
     @Override
