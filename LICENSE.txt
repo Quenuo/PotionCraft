@@ -1,23 +1,21 @@
-Licencia de Uso Personal y Educativo
+MIT License
 
-Este proyecto está protegido por derechos de autor, pero se permite su uso bajo las
-siguientes condiciones:
+Copyright (c) 2025 Angel Sánchez-Vallejo Moreno
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights  
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell      
+copies of the Software, and to permit persons to whom the Software is          
+furnished to do so, subject to the following conditions:                       
 
-1. **Uso permitido:**
-   - Uso personal y educativo.
-   - Consultar el código para aprender o inspirarse en su implementación.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.                                
 
-2. **Prohibiciones:**
-   - No se permite la redistribución del código, completo o parcial, sin el permiso
-     explícito del autor.
-   - No se permite su uso con fines comerciales.
-   - No se permite realizar modificaciones y distribuir versiones derivadas sin
-     autorización.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR     
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,       
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE    
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER         
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  
+SOFTWARE.
 
-3. **Autorización adicional:**
-   - Si deseas utilizar este proyecto fuera de los términos indicados, contacta al autor
-     para obtener permiso.
-
----
-
-Si tienes dudas sobre esta licencia, puedes comunicarte con el autor.
