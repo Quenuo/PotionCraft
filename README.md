@@ -52,17 +52,15 @@ Vende todas las pociones disponibles en tu inventario y obtén ganancias.
 Cada acción (crear pociones) afecta tu reputación, que se actualiza dinámicamente y se
 guarda para la próxima sesión.
 
-## Instalacion
+## Instalación
 1. Clona este repositorio:
 ```bash 
 git clone https://github.com/Quenuo/PotionCraft.git
 ```
-En una terminal MySQL ejecutar el [script](script.sql).
+Ejecuta el [script](script.sql) en una terminal MySQL
 
-Después en un IDE como IntelIJ o Eclipse donde se halla hecho el git clone ejecutar el
-main y ya estara en funcionamiento la aplicación
-
+Después, abre el proyecto en un IDE como IntelliJ IDEA o Eclipse y ejecuta la clase `Main`.
 ## Licencia
 
-Este proyecto está bajo una licencia de open source. Consulte el archivo [LICENSE.txt](LICENSE.txt)
+Este proyecto está bajo una licencia MIT. Consulte el archivo [LICENSE.txt](LICENSE.txt)
 para más detalles.
