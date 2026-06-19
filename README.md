@@ -64,5 +64,5 @@ main y ya estara en funcionamiento la aplicación
 
 ## Licencia
 
-Este proyecto está bajo una licencia propietaria. Consulte el archivo [LICENSE.txt](LICENSE.txt)
+Este proyecto está bajo una licencia de open source. Consulte el archivo [LICENSE.txt](LICENSE.txt)
 para más detalles.
