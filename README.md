@@ -52,14 +52,21 @@ Vende todas las pociones disponibles en tu inventario y obtén ganancias.
 Cada acción (crear pociones) afecta tu reputación, que se actualiza dinámicamente y se
 guarda para la próxima sesión.
 
+## Requisitos
+
+- Java 17 o superior.
+- MySQL.
+- Maven.
+
 ## Instalación
 1. Clona este repositorio:
 ```bash 
 git clone https://github.com/Quenuo/PotionCraft.git
 ```
-Ejecuta el [script](script.sql) en una terminal MySQL
-
-Después, abre el proyecto en un IDE como IntelliJ IDEA o Eclipse y ejecuta la clase `Main`.
+2. Instala Maven, Java y MySQL en el caso de no tenerlos instalado
+3. Ejecuta el [script](script.sql) en una terminal MySQL
+4. Verifica que la configuración de tu base de datos (URL, usuario y contraseña) coincida con la definida en `persistence.xml`
+5. Después, abre el proyecto en un IDE como IntelliJ IDEA o Eclipse y ejecuta la clase `Main`.
 ## Licencia
 
 Este proyecto está bajo una licencia MIT. Consulte el archivo [LICENSE.txt](LICENSE.txt)
