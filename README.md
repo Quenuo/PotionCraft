@@ -65,7 +65,7 @@ git clone https://github.com/Quenuo/PotionCraft.git
 ```
 2. Instala Maven, Java y MySQL en el caso de no tenerlos instalado
 3. Ejecuta el [script](script.sql) en una terminal MySQL
-4. Verifica que la configuración de tu base de datos (URL, usuario y contraseña) coincida con la definida en `persistence.xml`
+4. Ejecuta el [script](user_script.sql)en la misma o en una nueva terminal
 5. Después, abre el proyecto en un IDE como IntelliJ IDEA o Eclipse y ejecuta la clase `Main`.
 ## Licencia
 
